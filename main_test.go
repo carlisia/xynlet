@@ -2,15 +2,12 @@ package main
 
 import "testing"
 
-func TestPalindromes(t *testing.T) {
+func TestSmallestBases(t *testing.T) {
 	for _, test := range testCases {
-		if test.base != "decimal" {
-			continue // Not yet implemented
-		}
-		observed := IsPalindrome(test.decimal)
+		observed := test.number.smallesPalindBase(defaultEndBase)
 		if observed != test.expected {
-			t.Errorf("IsPalindrome of %d = %t, want %t (%s)",
-				test.decimal, observed, test.expected, test.base)
+			t.Errorf("smallesPalindBase of %d returned %d, want %d (%s)",
+				test.number, observed, test.expected, test.base)
 		}
 	}
 }

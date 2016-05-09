@@ -1,17 +1,81 @@
 package main
 
-import "strconv"
+import "math"
 
-// IsPalindrome checks if a given  number is a palindrome in any base
-func IsPalindrome(i int) bool {
-	s := strconv.Itoa(i)
-	return s == reverse(s)
+const defaultStartBase = 2
+const defaultEndBase = 20
+const defaultEndNum = 1000
+
+// Input is the number being checked for a palindrome in the smallest base
+type Input int
+
+func main() {
+	var num Input
+	for num = 0; num <= defaultEndNum; num++ {
+		num.smallesPalindBase(defaultEndBase)
+	}
 }
 
-func reverse(s string) string {
-	runes := []rune(s)
-	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
-		runes[i], runes[j] = runes[j], runes[i]
+func (number Input) smallesPalindBase(maxNumBase int) int {
+	for base := defaultStartBase; base <= maxNumBase; base++ {
+		size := number.representationSize(base)
+
+		baseRepresentation := make([]int, size)
+		number.decompose(baseRepresentation, base)
+
+		if isPalindrome(baseRepresentation) {
+			return base
+		}
 	}
-	return string(runes) // Convert back to UTF-8
+
+	return 0
+}
+
+func (number Input) representationSize(base int) int {
+	if number > 0 {
+		x := logB(float64(number), base)
+		size := int(math.Ceil(x))
+
+		if int(x) == size {
+			size++
+		}
+		return size
+	}
+
+	return 1
+}
+
+func (number Input) decompose(baseRepresentation []int, base int) {
+	current := int(number)
+
+	for i := 0; i < len(baseRepresentation); i++ {
+		if current < base {
+			baseRepresentation[i] = current
+			break
+		}
+		baseRepresentation[i] = current % base
+		current = current / base
+	}
+}
+
+func isPalindrome(baseRepresentation []int) bool {
+	size := len(baseRepresentation)
+
+	if size == 1 {
+		return true
+	}
+
+	midPoint := int(math.Floor(float64(size) / float64(2.0)))
+
+	for i := 0; i < midPoint; i++ {
+		if baseRepresentation[i] != baseRepresentation[size-i-1] {
+			return false
+		}
+	}
+
+	return true
+}
+
+func logB(x float64, base int) float64 {
+	return math.Log(x) / math.Log(float64(base))
 }
