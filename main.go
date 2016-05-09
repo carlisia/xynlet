@@ -1,6 +1,9 @@
 package main
 
-import "math"
+import (
+	"errors"
+	"math"
+)
 
 const defaultStartBase = 2
 const defaultEndBase = 20
@@ -16,7 +19,10 @@ func main() {
 	}
 }
 
-func (number Input) smallesPalindBase(maxNumBase int) int {
+func (number Input) smallesPalindBase(maxNumBase int) (int, error) {
+	if maxNumBase < 2 {
+		return -1, errors.New("Base less than 2 not be evaluated")
+	}
 	for base := defaultStartBase; base <= maxNumBase; base++ {
 		size := number.representationSize(base)
 
@@ -24,11 +30,11 @@ func (number Input) smallesPalindBase(maxNumBase int) int {
 		number.decompose(baseRepresentation, base)
 
 		if isPalindrome(baseRepresentation) {
-			return base
+			return base, nil
 		}
 	}
 
-	return 0
+	return 0, nil
 }
 
 func (number Input) representationSize(base int) int {

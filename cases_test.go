@@ -26,3 +26,16 @@ var testCases = []struct {
 	{18, 5, "five"},
 	{19, 18, "eighteen"},
 }
+
+var testCasesHigherBases = []struct {
+	number   Input // input as a decimal number
+	expected int   // smallest base in which the input is a palindrome
+	base     string
+}{
+	{6, 5, "five"},
+	{11, 10, "decimal"},
+	{12, 5, "five"},
+	{14, 6, "six"},
+	{18, 5, "five"},
+	{19, 18, "eighteen"},
+}
