@@ -21,7 +21,7 @@ func main() {
 
 func (number Input) smallesPalindBase(maxNumBase int) (int, error) {
 	if maxNumBase < 2 {
-		return -1, errors.New("Base less than 2 not be evaluated")
+		return -1, errors.New("Base less than 2 not evaluated")
 	}
 	for base := defaultStartBase; base <= maxNumBase; base++ {
 		size := number.representationSize(base)
@@ -54,7 +54,7 @@ func (number Input) representationSize(base int) int {
 func (number Input) decompose(baseRepresentation []int, base int) {
 	current := int(number)
 
-	for i := 0; i < len(baseRepresentation); i++ {
+	for i := range baseRepresentation {
 		if current < base {
 			baseRepresentation[i] = current
 			break

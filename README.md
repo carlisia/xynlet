@@ -5,4 +5,4 @@ A program in Go that determines the smallest base (greater than or equal to 2) i
 None, only std lib has been used.
 
 # Notes on commits
-Normally I squash commits into a whole unit of work, most of the time having it correspond to a task or story. For this project, I chose to commit incrementally to try and give an idea of what it would be like to pair program with me. Some commits will have a commentary on the body of the commit message.
+Normally I squash commits into a whole unit of work, usually having it correspond to a task or story. For this project, I chose to leave commits as smaller units. Also, longish commentaries are included on the body of commit messages as a (probably very poor!) attempt to give a sense of what it would've been like to pair-program with me during the code implementation.
