@@ -1,8 +1,12 @@
 package main
 
 import (
+	"encoding/csv"
 	"errors"
+	"log"
 	"math"
+	"os"
+	"strconv"
 )
 
 const defaultStartBase = 2
@@ -14,8 +18,18 @@ type Input int
 
 func main() {
 	var num Input
+	count := 1 // skip first index for header
+	records := make([][]string, defaultEndNum)
 	for num = 0; num <= defaultEndNum; num++ {
-		num.smallesPalindBase(defaultEndBase)
+		res, _ := num.smallesPalindBase(defaultEndBase)
+		if res > 0 {
+			records[count] = append(records[count], strconv.Itoa(int(num)), strconv.Itoa(res))
+			count++
+		}
+	}
+
+	if count > 1 {
+		writeOutput(records)
 	}
 }
 
@@ -84,4 +98,21 @@ func isPalindrome(baseRepresentation []int) bool {
 
 func logB(x float64, base int) float64 {
 	return math.Log(x) / math.Log(float64(base))
+}
+
+func writeOutput(records [][]string) {
+	output, err := os.Create("output.csv")
+	if err != nil {
+		log.Fatalln("error creating csv file:", err)
+		return
+	}
+	defer output.Close()
+
+	records[0] = append(records[0], "decimal", "smallest base in which the number is a palindrome")
+
+	w := csv.NewWriter(output)
+	w.WriteAll(records)
+	if err := w.Error(); err != nil {
+		log.Fatalln("error writing csv:", err)
+	}
 }
